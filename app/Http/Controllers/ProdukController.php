@@ -6,6 +6,7 @@ use App\Models\Produk;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProdukController extends Controller
 {
@@ -26,10 +27,20 @@ class ProdukController extends Controller
             'nama' => 'required',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Produk::create($request->all());
-        return redirect()->route('produk.index');
+        $data = $request->only(['nama', 'harga', 'stok', 'deskripsi', 'gambar']);
+
+        // Upload gambar jika ada
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('produk', 'public');
+            $data['gambar'] = $path; // Simpan path relatif
+        }
+
+        Produk::create($data);
+
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
     public function edit(Produk $produk)
@@ -39,14 +50,41 @@ class ProdukController extends Controller
 
     public function update(Request $request, Produk $produk)
     {
-        $produk->update($request->all());
-        return redirect()->route('produk.index');
+        $request->validate([
+            'nama' => 'required',
+            'harga' => 'required|numeric',
+            'stok' => 'required|integer',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $data = $request->only(['nama', 'harga', 'stok', 'deskripsi', 'gambar']);
+
+        // Jika ada file gambar baru
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama
+            if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
+                Storage::disk('public')->delete($produk->gambar);
+            }
+
+            // Upload baru
+            $path = $request->file('gambar')->store('produk', 'public');
+            $data['gambar'] = $path;
+        }
+
+        $produk->update($data);
+
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil diupdate!');
     }
 
     public function destroy(Produk $produk)
     {
+        // Hapus gambar jika ada
+        if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
+            Storage::disk('public')->delete($produk->gambar);
+        }
+
         $produk->delete();
-        return redirect()->route('produk.index');
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus!');
     }
 
     public function showBuyForm($id)
@@ -71,17 +109,16 @@ class ProdukController extends Controller
 
         $produk->decrement('stok', $request->input('quantity'));
 
-        return redirect()->route('produk.index')->with('success', 'Purchase successful!');
+        return redirect()->route('produk.index')->with('success', 'Pembelian berhasil! Terima kasih telah berbelanja.');
     }
 
     public function myPurchases()
     {
-        $purchases = Purchase::with('produk') // eager load produk info
+        $purchases = Purchase::with('produk')
             ->where('user_id', auth()->id())
             ->latest()
             ->get();
 
         return view('purchase.purchases', compact('purchases'));
     }
-
 }

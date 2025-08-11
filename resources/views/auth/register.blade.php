@@ -3,47 +3,80 @@
 @section('title', 'Register')
 
 @section('content')
-<div class="container mt-5" style="max-width: 500px;">
-    <h2 class="text-center mb-4">📝 Daftar Akun</h2>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <div class="mb-3">
-            <label for="name" class="form-label">Nama</label>
-            <input type="text" name="name" class="form-control" id="name" value="{{ old('name') }}" required>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 450px; border-radius: 15px;">
+        
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <div class="bg-primary text-white rounded-circle d-inline-flex justify-content-center align-items-center" style="width: 70px; height: 70px;">
+                <i class="bi bi-shop me-1" style="font-size: 2rem;"></i>
+            </div>
+            <h3 class="mt-3 fw-bold">Buat Akun Baru</h3>
+            <p class="text-muted">Daftar sekarang dan mulai belanja</p>
         </div>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" id="email" value="{{ old('email') }}" required>
-        </div>
+        <!-- Error Validation -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0 small">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" id="password" required>
-        </div>
+        <!-- Form -->
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <div class="mb-3">
-            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-            <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" required>
-        </div>
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label fw-semibold">Nama</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Nama lengkap" value="{{ old('name') }}" required>
+                </div>
+            </div>
 
-        <button type="submit" class="btn btn-success w-100">Daftar</button>
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="contoh@email.com" value="{{ old('email') }}" required>
+                </div>
+            </div>
 
-        <div class="text-center mt-3">
-            <a href="{{ route('login') }}">Sudah punya akun? Login</a>
-        </div>
-    </form>
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-lock"></i></span>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="password_confirmation" class="form-label fw-semibold">Konfirmasi Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-shield-lock"></i></span>
+                    <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Ulangi password" required>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                <i class="bi bi-check-circle me-1"></i> Daftar
+            </button>
+
+            <!-- Login Link -->
+            <div class="text-center mt-3">
+                <small class="text-muted">Sudah punya akun?</small>
+                <a href="{{ route('login') }}" class="fw-semibold text-decoration-none">Yo login sekarang</a>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
