@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Warung Asep')</title>
+    <title>@yield('title', 'Warung PKL')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #12304e;
+        }
+        .container {
+            color: #101820;
+        }
+        .card {
+            background-color: #dcdcdcbf;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm mb-4">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">
-                <i class="bi bi-shop me-1"></i> Warung Asep
+                <i class="bi bi-shop me-1"></i> Warung PKL
             </a>
 
             <!-- Toggler for mobile -->
@@ -25,13 +36,13 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('produk.index') ? 'active' : '' }}" 
                                href="{{ route('produk.index') }}">
-                               <i class="bi bi-box-seam"></i> Produk
+                               <i class="bi bi-box-seam"></i> Produk Kami
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('purchase.purchases') ? 'active' : '' }}" 
                                href="{{ route('purchase.purchases') }}">
-                               <i class="bi bi-bag-check"></i> Pembelian
+                               <i class="bi bi-bag-check"></i> Riwayat Pembelian
                             </a>
                         </li>
                         <li class="nav-item">

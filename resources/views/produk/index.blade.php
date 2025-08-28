@@ -7,7 +7,7 @@
     <div class="container mt-10 mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold text-primary">
-                <i class="bi bi-basket-fill me-2"></i> Daftar Makanan
+                <i class="bi bi-basket-fill me-2"></i> Daftar Ebook
             </h2>
 
             {{-- Tombol tambah produk untuk admin --}}
@@ -110,7 +110,7 @@
         }
         .produk-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(254, 231, 21, 0.5);
         }
     </style>
 @endsection

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('stok');
             $table->text('deskripsi')->nullable();
             $table->string('gambar')->nullable();
-            $table->timestamps();
+            $table->timestamps("Asia/Jakarta");
         });
     }
 

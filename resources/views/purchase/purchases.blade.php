@@ -45,7 +45,7 @@
                                     <td class="fw-bold text-success">
                                         Rp{{ number_format($purchase->produk->harga * $purchase->quantity, 0, ',', '.') }}
                                     </td>
-                                    <td>{{ $purchase->created_at->format('d M Y - H:i') }}</td>
+                                    <td>{{ $purchase->created_at->format('d M Y - H:i:s ') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
